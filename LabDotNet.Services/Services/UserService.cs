@@ -22,6 +22,7 @@ namespace LabDotNet.Services.Services
         public AuthenticationResponse Register(Register register)
         {
             ValidateRegister(register);
+            return new AuthenticationResponse();
         }
 
         private void ValidateRegister(Register register)

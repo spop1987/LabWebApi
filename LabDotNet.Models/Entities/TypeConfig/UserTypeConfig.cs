@@ -12,7 +12,7 @@ namespace LabDotNet.Models.Entities.TypeConfig
             builder.Property(u => u.FirstName).IsRequired().HasColumnType("varchar(100)");
             builder.Property(u => u.LastName).IsRequired().HasColumnType("varchar(100)");
             builder.Property(u => u.Email).IsRequired().HasColumnType("varchar(100)");
-            builder.Property(u => u.Password).IsRequired().HasColumnType("varchar(20)");
+            builder.Property(u => u.Password).IsRequired().HasColumnType("varchar(100)");
             builder.Property(u => u.UserType).HasColumnType("varchar(10)");
             builder.Property(u => u.CreateDate).HasColumnType("dateTime");
             builder.Property(u => u.UpdateDate).HasColumnType("dateTime");

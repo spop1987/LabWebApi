@@ -23,6 +23,7 @@ namespace LabDotNet.Api
                     NamingStrategy = new CamelCaseNamingStrategy()
                 };
             });
+            services.AddDependencyServices();
 
             if(_env.IsDevelopment()){
                 services.AddDbContext<LabDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("LabDotNet")));

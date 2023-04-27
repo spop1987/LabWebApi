@@ -21,4 +21,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LabDotNet.Models\LabDotNet.Models.csproj" />
+    <ProjectReference Include="..\LabDotNet.Common.Tests\LabDotNet.Common.Tests.csproj" />
+  </ItemGroup>
+
 </Project>

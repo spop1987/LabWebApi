@@ -11,7 +11,7 @@ namespace LabDotNet.DataBase.DataAccess
         {
             _context = context;
         }
-        public User FindUserByEmail(string email)
+        public User? FindUserByEmail(string email)
         {
             return _context.Users.Where(u => u.Email == email).FirstOrDefault();
         }

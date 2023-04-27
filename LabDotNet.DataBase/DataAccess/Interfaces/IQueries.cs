@@ -4,6 +4,6 @@ namespace LabDotNet.DataBase.DataAccess.Interfaces
 {
     public interface IQueries
     {
-        User FindUserByEmail(string email);
+        User? FindUserByEmail(string email);
     }
 }

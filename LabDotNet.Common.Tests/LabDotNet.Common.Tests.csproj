@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
-    <PackageReference Include="Moq" Version="4.18.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -24,9 +23,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LabDotNet.Models\LabDotNet.Models.csproj" />
-    <ProjectReference Include="..\LabDotNet.Services\LabDotNet.Services.csproj" />
-    <ProjectReference Include="..\LabDotNet.DataBase\LabDotNet.DataBase.csproj" />
-    <ProjectReference Include="..\LabDotNet.Common.Tests\LabDotNet.Common.Tests.csproj" />
   </ItemGroup>
 
 </Project>

@@ -23,9 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LabDotNet.Models\LabDotNet.Models.csproj" />
-    <ProjectReference Include="..\LabDotNet.Services\LabDotNet.Services.csproj" />
-    <ProjectReference Include="..\LabDotNet.DataBase\LabDotNet.DataBase.csproj" />
+    <ProjectReference Include="..\..\LabDotNet.Models\LabDotNet.Models.csproj" />
+    <ProjectReference Include="..\..\LabDotNet.Services\LabDotNet.Services.csproj" />
+    <ProjectReference Include="..\..\LabDotNet.DataBase\LabDotNet.DataBase.csproj" />
     <ProjectReference Include="..\LabDotNet.Common.Tests\LabDotNet.Common.Tests.csproj" />
   </ItemGroup>
 

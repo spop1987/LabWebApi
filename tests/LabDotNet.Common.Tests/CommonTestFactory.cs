@@ -2,6 +2,7 @@ using System;
 using LabDotNet.Models.Dtos;
 using LabDotNet.Models.Entities;
 using LabDotNet.Models.Request;
+using LabDotNet.Models.Responses;
 
 namespace LabDotNet.Common.Tests
 {
@@ -55,6 +56,15 @@ namespace LabDotNet.Common.Tests
         public static string CreateHash(int length)
         {
             return RandomString(length);
+        }
+
+        public static AuthenticationResponse CreateAuthenticationResponse(long userId, string token)
+        {
+            return new AuthenticationResponse
+            {
+                UserId = userId,
+                AccessToken = token
+            };
         }
 
         private static string RandomString(int length)

@@ -36,10 +36,10 @@ namespace LabDotNet.Services.Tests
             var hashPassword = CommonTestFactory.CreateHash(10);
             var user = CommonTestFactory.CreateUser(10, hashPassword);
             user.UserId = 1203L;
-            
+            var token = "fdsgfdsgfjdshgsgbkdfl";
             _queries.Setup(q => q.FindUserByEmail(register.Email)).Returns(null as User);
             _securityService.Setup(s => s.Hash(register.Password)).Returns(hashPassword);
-            _securityService.Setup(s => s.GenerateJwtToken(user.UserId, user.Email)).Returns(It.IsAny<string>());
+            _securityService.Setup(s => s.GenerateJwtToken(user.UserId, user.Email)).Returns(token);
             _toEntityTranslator.Setup(t => t.ToUser(register, hashPassword)).Returns(user);
             _commands.Setup(c => c.AddUser(user)).Returns(user.UserId);
             // Act
@@ -53,6 +53,7 @@ namespace LabDotNet.Services.Tests
             _commands.Verify(c => c.AddUser(user), Times.Once, "AddUser should be called once");
             Assert.Equal(user.UserId, authResponse.UserId);
             Assert.IsType<string>(authResponse.AccessToken);
+            Assert.Equal(token, authResponse.AccessToken);
         }
 
         [Fact(DisplayName = "Trying to register an User without email")]
@@ -64,6 +65,7 @@ namespace LabDotNet.Services.Tests
             // Act
             // Assert
             var exeception = Assert.Throws<ValidationException>(() => _userService.Register(register));
+            Assert.Equal("Should fill all the fields", exeception.Message);
         }
     }
 }

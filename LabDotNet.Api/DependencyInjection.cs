@@ -20,6 +20,7 @@ namespace LabDotNet.Api
             services.AddScoped<IQueries, Queries>();
             services.AddScoped<ICommands, Commands>();
             services.AddTransient<IToEntityTranslator, ToEntityTranslator>();
+            services.AddTransient<IToDtoTranslator, ToDtoTranslator>();
         }
     }
 }

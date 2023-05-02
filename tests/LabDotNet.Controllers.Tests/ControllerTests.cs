@@ -31,9 +31,30 @@ namespace LabDotNet.Controllers.Tests
             // Act
             var response = _controller.Register(register);
             var userRegistered = response.Value;
+
             // Assert
+            _userService.Verify(u => u.Register(register), Times.Once, "Register should be called once");
             Assert.Equal(userId, userRegistered.UserId);
             Assert.Equal(token, userRegistered.AccessToken);
         }
+
+        [Fact(DisplayName = "LoginUser [Success]")]
+        public async Task LoginUser_Success()
+        {
+            // Arrange
+            var login = CommonTestFactory.CreateLogin("sergio@levio.com", "sergio1234");
+            var userDto = CommonTestFactory.CreateUserDto("sergio", "perez", "sergio@levio.com");
+            var token = "fdsnfjdsnfldsnflsd";
+            var loginResponse = CommonTestFactory.CreateLoginResponse(userDto, token);
+            _userService.Setup(u => u.Login(login)).Returns(loginResponse);
+
+            // Act
+            var response = _controller.Login(login);
+            
+            // Assert
+            _userService.Verify(u => u.Login(login), Times.Once, "Login should be called once");
+            await EntityAsserts.AssertUserDtoAsync(userDto, response.Value.User);
+        }
+
     }
 }

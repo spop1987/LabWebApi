@@ -17,10 +17,17 @@ namespace LabDotNet.Api.Controllers
         }
 
         [HttpPost]
+        [Route("Login")]
+        public ActionResult<LoginResponse> Login(Login login)
+        {
+            return _userService.Login(login);
+        }
+
+        [HttpPost]
         [Route("Register")]
         public ActionResult<AuthenticationResponse> Register(Register register)
         {
             return _userService.Register(register);
-        }
+        }   
     }
 }

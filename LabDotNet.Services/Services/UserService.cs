@@ -15,16 +15,19 @@ namespace LabDotNet.Services.Services
         private readonly IQueries _queries;
         private readonly ICommands _commands;
         private readonly IToEntityTranslator _toEntityTranslator;
+        private readonly IToDtoTranslator _toDtoTranslator;
 
         public UserService(ISecurityService securityService,
                            IQueries queries,
                            ICommands commands,
-                           IToEntityTranslator toEntityTranslator)
+                           IToEntityTranslator toEntityTranslator,
+                           IToDtoTranslator toDtoTranslator)
         {
             _securityService = securityService;
             _queries = queries;
             _commands = commands;
             _toEntityTranslator = toEntityTranslator;
+            _toDtoTranslator = toDtoTranslator;
         }
         public List<User> GetAll()
         {
@@ -34,6 +37,26 @@ namespace LabDotNet.Services.Services
         public User GetUserById(long userId)
         {
             throw new NotImplementedException();
+        }
+
+        public LoginResponse Login(Login login)
+        {
+            ValidateLogin(login);
+
+            var user = _queries.FindUserByEmail(login.Email);
+            if(user is null)
+                throw new ValidationException("User does not exists");
+            
+            var hashedPassword = _securityService.Hash(login.Password);
+
+            if(hashedPassword != user.Password)
+                throw new ValidationException("Password incorrect");
+            
+            var response = new LoginResponse();
+            response.User = _toDtoTranslator.ToUserDto(user);
+            response.AccessToken = _securityService.GenerateJwtToken(user.UserId, user.Email);
+
+            return response;
         }
 
         public AuthenticationResponse Register(Register register)
@@ -53,6 +76,12 @@ namespace LabDotNet.Services.Services
             response.UserId = userId;
             response.AccessToken = _securityService.GenerateJwtToken(userId, newUser.Email);
             return response;
+        }
+
+        private void ValidateLogin(Login login)
+        {
+            if(string.IsNullOrEmpty(login.Email) || string.IsNullOrEmpty(login.Password))
+                throw new ValidationException("Email and password are mandatory");
         }
 
         private void ValidateRegister(Register register)

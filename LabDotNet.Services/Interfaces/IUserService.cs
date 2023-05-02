@@ -9,5 +9,6 @@ namespace LabDotNet.Services.Interfaces
         User GetUserById(long userId);
         List<User> GetAll();
         AuthenticationResponse Register(Register register);
+        LoginResponse Login(Login login);
     }
 }

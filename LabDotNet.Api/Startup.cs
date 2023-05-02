@@ -51,6 +51,16 @@ namespace LabDotNet.Api
             {
                 endpoints.MapControllers();
             });
+            MigrateDB(app);
+        }
+
+        protected virtual void MigrateDB(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetService<LabDbContext>();
+                context.Database.Migrate();
+            }
         }
     }
 }

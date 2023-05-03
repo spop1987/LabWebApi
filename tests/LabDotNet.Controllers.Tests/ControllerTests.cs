@@ -19,13 +19,13 @@ namespace LabDotNet.Controllers.Tests
         }
 
         [Fact(DisplayName="RegisterUser [Success]")]
-        public void RegisterUser_Success()
+        public async Task RegisterUser_Success()
         {
             // Arrange
             var register = CommonTestFactory.CreateRegister("sergio@levio.com", "sergio1234", UserTypes.ADMIN, "sergio", "perez");
-            var userId = 123L;
+            var userDto = CommonTestFactory.CreateUserDto("sergio", "perez", "sergio@levio.com");
             var token = "fdsnfjdsnfldsnflsd";
-            var authResponse = CommonTestFactory.CreateAuthenticationResponse(userId, token);
+            var authResponse = CommonTestFactory.CreateAuthenticationResponse(userDto, token);
             _userService.Setup(u => u.Register(register)).Returns(authResponse);
 
             // Act
@@ -34,7 +34,7 @@ namespace LabDotNet.Controllers.Tests
 
             // Assert
             _userService.Verify(u => u.Register(register), Times.Once, "Register should be called once");
-            Assert.Equal(userId, userRegistered.UserId);
+             await EntityAsserts.AssertUserDtoAsync(userDto, userRegistered.User);
             Assert.Equal(token, userRegistered.AccessToken);
         }
 
@@ -45,7 +45,7 @@ namespace LabDotNet.Controllers.Tests
             var login = CommonTestFactory.CreateLogin("sergio@levio.com", "sergio1234");
             var userDto = CommonTestFactory.CreateUserDto("sergio", "perez", "sergio@levio.com");
             var token = "fdsnfjdsnfldsnflsd";
-            var loginResponse = CommonTestFactory.CreateLoginResponse(userDto, token);
+            var loginResponse = CommonTestFactory.CreateAuthenticationResponse(userDto, token);
             _userService.Setup(u => u.Login(login)).Returns(loginResponse);
 
             // Act

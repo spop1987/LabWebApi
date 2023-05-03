@@ -38,12 +38,14 @@ namespace LabDotNet.Services.Tests
             var register = CommonTestFactory.CreateRegister("sergio@levio.com", "sergio1234", UserTypes.ADMIN, "sergio", "perez");
             var hashPassword = CommonTestFactory.CreateHash(10);
             var user = CommonTestFactory.CreateUser(10, hashPassword);
+            var userDto = CommonTestFactory.CreateUserDto("sergio", "perez", "sergio@levio.com");
             user.UserId = 1203L;
             var token = "fdsgfdsgfjdshgsgbkdfl";
             _queries.Setup(q => q.FindUserByEmail(register.Email)).Returns(null as User);
             _securityService.Setup(s => s.Hash(register.Password)).Returns(hashPassword);
             _securityService.Setup(s => s.GenerateJwtToken(user.UserId, user.Email)).Returns(token);
             _toEntityTranslator.Setup(t => t.ToUser(register, hashPassword)).Returns(user);
+            _toDtoTranslator.Setup(t => t.ToUserDto(user)).Returns(userDto);
             _commands.Setup(c => c.AddUser(user)).Returns(user.UserId);
             // Act
             var authResponse = _userService.Register(register);
@@ -53,8 +55,9 @@ namespace LabDotNet.Services.Tests
             _securityService.Verify(s => s.Hash(register.Password), Times.Once, "Hash should be called once");
             _securityService.Verify(s => s.GenerateJwtToken(user.UserId, user.Email), Times.Once, "GenerateToken should be called onec");
             _toEntityTranslator.Verify(t => t.ToUser(register, hashPassword), Times.Once, "ToUser should be called once");
+            _toDtoTranslator.Verify(t => t.ToUserDto(user), Times.Once, "Should be called once");
             _commands.Verify(c => c.AddUser(user), Times.Once, "AddUser should be called once");
-            Assert.Equal(user.UserId, authResponse.UserId);
+            Assert.IsType<UserDto>(authResponse.User);
             Assert.IsType<string>(authResponse.AccessToken);
             Assert.Equal(token, authResponse.AccessToken);
         }

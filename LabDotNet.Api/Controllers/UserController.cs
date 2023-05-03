@@ -18,7 +18,7 @@ namespace LabDotNet.Api.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public ActionResult<LoginResponse> Login(Login login)
+        public ActionResult<AuthenticationResponse> Login(Login login)
         {
             return _userService.Login(login);
         }

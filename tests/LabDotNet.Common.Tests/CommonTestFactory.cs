@@ -80,18 +80,9 @@ namespace LabDotNet.Common.Tests
             return RandomString(length);
         }
 
-        public static AuthenticationResponse CreateAuthenticationResponse(long userId, string token)
+        public static AuthenticationResponse CreateAuthenticationResponse(UserDto userDto, string token)
         {
             return new AuthenticationResponse
-            {
-                UserId = userId,
-                AccessToken = token
-            };
-        }
-
-        public static LoginResponse CreateLoginResponse(UserDto userDto, string token)
-        {
-            return new LoginResponse
             {
                 User = userDto,
                 AccessToken = token

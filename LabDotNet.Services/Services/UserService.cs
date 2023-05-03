@@ -39,7 +39,7 @@ namespace LabDotNet.Services.Services
             throw new NotImplementedException();
         }
 
-        public LoginResponse Login(Login login)
+        public AuthenticationResponse Login(Login login)
         {
             ValidateLogin(login);
 
@@ -52,7 +52,7 @@ namespace LabDotNet.Services.Services
             if(hashedPassword != user.Password)
                 throw new ValidationException("Password incorrect");
             
-            var response = new LoginResponse();
+            var response = new AuthenticationResponse();
             response.User = _toDtoTranslator.ToUserDto(user);
             response.AccessToken = _securityService.GenerateJwtToken(user.UserId, user.Email);
 
@@ -70,10 +70,11 @@ namespace LabDotNet.Services.Services
             var hashedPassword = _securityService.Hash(register.Password);
 
             var newUser = _toEntityTranslator.ToUser(register, hashedPassword);
-
+            
             var userId = _commands.AddUser(newUser);
+            var userDto = _toDtoTranslator.ToUserDto(newUser);
             var response = new AuthenticationResponse();
-            response.UserId = userId;
+            response.User = userDto;
             response.AccessToken = _securityService.GenerateJwtToken(userId, newUser.Email);
             return response;
         }

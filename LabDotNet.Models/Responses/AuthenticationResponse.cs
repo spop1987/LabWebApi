@@ -1,8 +1,10 @@
+using LabDotNet.Models.Dtos;
+
 namespace LabDotNet.Models.Responses
 {
     public class AuthenticationResponse
     {
-        public long UserId { get; set; }
+        public UserDto User { get; set; }
         public string AccessToken { get; set; }
     }
 }
